@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. AIT Results BYPASS CAPTCHA</title>
+    
+</head>
+<body>
+    <form id="formElem">
+        <label>Enter your USN:</label>
+        <input type="text" name="usn" value="" id="usn">
+        <input type="submit">
+      </form>
+
+    <div id="display"></div>
+      
+      <script>
+        var myHeaders = new Headers();
+        var urlencoded = new URLSearchParams();  
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+        urlencoded.append("get_ry", "2021-06-01");
+        
+        formElem.onsubmit = async (e) => {
+          var nameValue = document.getElementById("usn").value;
+          e.preventDefault();
+          console.log(nameValue);
+          
+          urlencoded.append("get_usn", nameValue.toUpperCase());  
+          let response = await fetch('http://results.drait.in/ug_result_see.php', {
+            method: 'POST',
+            headers: myHeaders,
+            body: urlencoded,
+            redirect: 'follow'
+          }).then(response => response.text())
+            .then(result => document.getElementById("display").innerHTML = result)
+           .catch(error => console.log('error', error));
+        };
+      </script>
+</body>
+</html>
